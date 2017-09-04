@@ -10,6 +10,8 @@
  * @param {ListNode} l2
  * @return {ListNode}
  */
+
+//优化前
 var addTwoNumbers = function(l1, l2) {
     let more_l1 = true,more_l2 = true,result = [],more_than_10 = 0;
     do{
@@ -40,4 +42,18 @@ var addTwoNumbers = function(l1, l2) {
         answer.next = val;
     }
     return answer;
+};
+
+//优化后
+var addTwoNumbers = function(l1, l2) {
+    let more_than_10 = 0,arr=[new ListNode(0)],i = 0;
+    do{
+        let num = (l1?l1.val:0) + (l2?l2.val:0) + more_than_10;
+        arr[i].next = arr[++i] =  new ListNode(num%10);
+        more_than_10 = num>=10?1:0;
+        l1 = l1?l1.next:null;
+        l2 = l2?l2.next:null;
+    } while(l1 || l2 ||more_than_10);
+
+    return arr[0].next;
 };
